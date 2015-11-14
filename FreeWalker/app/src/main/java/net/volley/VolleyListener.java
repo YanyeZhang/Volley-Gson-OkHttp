@@ -162,14 +162,16 @@ public abstract class VolleyListener<T extends Object> {
      *
      * @param exception
      */
-     private void handleException(Exception exception) {
+    private void handleException(Exception exception) {
         String errorMessage;
         try {
             throw exception;
+        } catch (TimeoutError e) {
+            errorMessage = "网络连接超时，请检查当前网络";
         } catch (NetworkError e) {
+            errorMessage = "网络连接失败，请检查当前网络";
+        } catch (ServerError e) {
             errorMessage = "连接服务器失败，请检查当前网络";
-        } catch (ServerError | TimeoutError e) {
-            errorMessage = "网络连接超时，请稍后再试";
         } catch (AuthFailureError e) {
             errorMessage = "身份验证错误,请重新登录";
             //other logic
