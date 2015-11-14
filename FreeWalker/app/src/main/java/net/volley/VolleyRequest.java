@@ -28,7 +28,7 @@ public class VolleyRequest {
 
     public static VolleyRequest getInstance() {
         if (mVolleyRequest == null) {
-            synchronized (mVolleyRequest) {
+            synchronized (VolleyRequest.class) {
                 if (mVolleyRequest == null) {
                     mVolleyRequest = new VolleyRequest();
                 }
