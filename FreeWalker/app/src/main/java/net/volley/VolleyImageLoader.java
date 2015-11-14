@@ -18,7 +18,7 @@ public class VolleyImageLoader {
 
     public final static VolleyImageLoader getInstance() {
         if (mVolleyImageLoader == null) {
-            synchronized (mVolleyImageLoader) {
+            synchronized (VolleyImageLoader.class) {
                 if (mVolleyImageLoader == null) {
                     mVolleyImageLoader = new VolleyImageLoader();
                 }
