@@ -162,7 +162,7 @@ public abstract class VolleyListener<T extends Object> {
      *
      * @param exception
      */
-    private void handleException(Exception exception) {
+     private void handleException(Exception exception) {
         String errorMessage;
         try {
             throw exception;
@@ -174,9 +174,12 @@ public abstract class VolleyListener<T extends Object> {
             errorMessage = "身份验证错误,请重新登录";
             //other logic
         } catch (VolleyError e) {
-            errorMessage = "数据异常，我们会尽快修复";
-        } catch (Exception e) {
             errorMessage = "请求错误，请稍后再试";
+        } catch (com.google.gson.JsonSyntaxException e) {
+            errorMessage = "数据异常，我们会尽快修复";
+            Log.e(TAG, e.getMessage());
+        } catch (Exception e) {
+            errorMessage = "未知错误，请稍后再试";
             Log.e(TAG, e.getMessage());
         }
         //可以添加服务器协议自定义错误
