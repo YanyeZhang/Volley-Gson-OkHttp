@@ -16,15 +16,19 @@ public class CustomHttpHeaderParser extends HttpHeaderParser {
      * @param cacheTime 缓存时间，如果设置了这个值，不管服务器返回是否可以缓存，都会缓存,一天为1000*60*60*24
      * @return a cache entry for the given response, or null if the response is not cacheable.
      */
-    public static Cache.Entry parseCacheHeaders(NetworkResponse response, long cacheTime) throws Exception {
-        Cache.Entry entry = parseCacheHeaders(response);
-        if (entry == null) {
-            throw new Exception("Response is empty");
-        }
+    public static Cache.Entry parseCacheHeaders(NetworkResponse response, long cacheTime) {
         long now = System.currentTimeMillis();
         long softExpire = now + cacheTime;
+        Cache.Entry entry = parseCacheHeaders(response);
+        if (entry == null) {
+            entry = new Cache.Entry();
+            entry.data = response.data;
+            entry.serverDate = now;
+        }
+        // Time to Leave 客户端可以通过这个数据来判断当前内容是否过期。
+        entry.ttl = softExpire;
+        // 在这个时间内，是否需要刷新
         entry.softTtl = softExpire;
-        entry.ttl = entry.softTtl;
         return entry;
     }
 }
