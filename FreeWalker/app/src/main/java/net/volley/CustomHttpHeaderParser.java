@@ -1,12 +1,14 @@
 package net.volley;
 
+import android.text.TextUtils;
+
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 /**
  * Created by zhangyanye on 2015/9/17.
- * Description:自定义的HeaderParser,跟默认的比，可以强制缓存，忽略服务器的设置
+ * Description:自定义的HeaderParser,跟默认的比，可以强制缓存，忽略服务器的设置，不过还是服务器的动态配置为优
  */
 public class CustomHttpHeaderParser extends HttpHeaderParser {
     /**
@@ -20,12 +22,10 @@ public class CustomHttpHeaderParser extends HttpHeaderParser {
         long now = System.currentTimeMillis();
         long softExpire = now + cacheTime;
         Cache.Entry entry = parseCacheHeaders(response);
-        if (entry == null) {
+        if (entry == null && TextUtils.isEmpty(response.data.toString())) {
             entry = new Cache.Entry();
             entry.data = response.data;
             entry.serverDate = now;
-        }
-       if (entry.ttl == 0 && entry.softTtl == 0) {
             // Time to Leave 客户端可以通过这个数据来判断当前内容是否过期。
             entry.ttl = softExpire;
             // 在这个时间内，是否需要刷新
