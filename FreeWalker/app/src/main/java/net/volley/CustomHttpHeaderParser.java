@@ -22,7 +22,7 @@ public class CustomHttpHeaderParser extends HttpHeaderParser {
         long now = System.currentTimeMillis();
         long softExpire = now + cacheTime;
         Cache.Entry entry = parseCacheHeaders(response);
-        if (entry == null && TextUtils.isEmpty(response.data.toString())) {
+        if (null == entry && TextUtils.isEmpty(response.data.toString())) {
             entry = new Cache.Entry();
             entry.data = response.data;
             entry.serverDate = now;
