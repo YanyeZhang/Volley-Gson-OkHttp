@@ -110,11 +110,6 @@ public class CustomRequest extends StringRequest {
         } catch (UnsupportedEncodingException e) {
             parsed = new String(response.data);
         }
-        try {
-            return Response.success(parsed, CustomHttpHeaderParser.parseCacheHeaders(response, mCacheTime));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return Response.success(parsed, CustomHttpHeaderParser.parseCacheHeaders(response, mCacheTime));
     }
 }
