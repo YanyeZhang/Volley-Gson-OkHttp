@@ -25,10 +25,12 @@ public class CustomHttpHeaderParser extends HttpHeaderParser {
             entry.data = response.data;
             entry.serverDate = now;
         }
-        // Time to Leave 客户端可以通过这个数据来判断当前内容是否过期。
-        entry.ttl = softExpire;
-        // 在这个时间内，是否需要刷新
-        entry.softTtl = softExpire;
+       if (entry.ttl == 0 && entry.softTtl == 0) {
+            // Time to Leave 客户端可以通过这个数据来判断当前内容是否过期。
+            entry.ttl = softExpire;
+            // 在这个时间内，是否需要刷新
+            entry.softTtl = softExpire;
+        }
         return entry;
     }
 }
